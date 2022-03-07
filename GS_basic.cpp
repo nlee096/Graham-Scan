@@ -7,6 +7,7 @@
 #include <utility>
 #include <stack>
 #include <fstream>
+#include "get_time.h"
 using namespace std;
 
 vector< pair<double, double> > pointlist;
@@ -123,6 +124,7 @@ void getinput(int &numpoints){
         cin >> y;
         pointlist.push_back(make_pair(x,y));
     }
+    
     ofstream file;
     file.open ("allpoints.txt");
     if(file.is_open()){
@@ -131,7 +133,11 @@ void getinput(int &numpoints){
         }
         file.close();
     }
+    timer t; t.start();
     convex(numpoints);
+    t.stop();
+    double tm = t.get_total();
+    
     file.open ("convexHull.txt");
     if(file.is_open()){
         while (!save.empty()){
@@ -140,6 +146,7 @@ void getinput(int &numpoints){
         }
         file.close();
     }
+    cout << "Time: " << tm << endl;
 }
 void circleTest1(int &numpoints){
     pointlist.clear();
@@ -164,7 +171,11 @@ void circleTest1(int &numpoints){
         pointlist.at(index) = temp;
     }
 
+    timer t; t.start();
     convex(numpoints);
+    t.stop();
+    double tm = t.get_total();
+
     double minY = pointlist.at(0).second;
     int min = 0;
     for(int i = 1 ; i < numpoints; i++){
@@ -191,12 +202,12 @@ void circleTest1(int &numpoints){
             return;
         }
     }
-    cout << "circle test 1 passed" << endl;
+    cout << "circle test 1 passed. Time: " << tm << endl;
 }
 void circleTest2(int &numpoints){
      pointlist.clear();
     save.clear();
-    numpoints = 10000;
+    numpoints = 1000000;
     double x;
     double y;
     int numadded = 0;
@@ -228,7 +239,11 @@ void circleTest2(int &numpoints){
         file.close();
     }
 
+    timer t; t.start();
     convex(numpoints);
+    t.stop();
+    double tm = t.get_total();
+
     file.open ("convexHull.txt");
     if(file.is_open()){
         while (!save.empty()){
@@ -237,16 +252,16 @@ void circleTest2(int &numpoints){
         }
         file.close();
     }
+    cout << "circle test 2 see allpoints.txt and convexHull.txt. Time: " << tm << endl;
 }
-
 void randPtTest(int &numpoints){
     pointlist.clear();
     save.clear();
-    numpoints = 1000;
+    numpoints = 1000000;
     double x;
     double y;
     int sign;
-    
+
     srand (time(NULL));
     for(int i = 0 ; i < numpoints; i++){
         x = ((rand() % 10000)/10.0);
@@ -261,7 +276,7 @@ void randPtTest(int &numpoints){
         }
         pointlist.push_back(make_pair(x,y));
     }
-    
+
     ofstream file;
     file.open ("allpoints.txt");
     if(file.is_open()){
@@ -270,9 +285,12 @@ void randPtTest(int &numpoints){
         }
         file.close();
     }
-    
+
+    timer t; t.start();
     convex(numpoints);
-    
+    t.stop();
+    double tm = t.get_total();
+
     file.open ("convexHull.txt");
     if(file.is_open()){
         while (!save.empty()){
@@ -281,19 +299,12 @@ void randPtTest(int &numpoints){
         }
         file.close();
     }
+    cout << "random points test see allpoints.txt and convexHull.txt. Time : " << tm << endl;
 }
-
 int main(){
     int numpoints;
-    
-    //getinput(numpoints);
-    
     circleTest1(numpoints);
     circleTest2(numpoints);
     randPtTest(numpoints);
-    
-    //convex(numpoints);
-    
     return 0;
 }
-
