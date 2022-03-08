@@ -170,25 +170,6 @@ void circleTest1(int &numpoints){
     t.stop();
     double tm = t.get_total();
     
-    double minY = pointlist.at(0).second;
-    int min = 0;
-    for(int i = 1 ; i < numpoints; i++){
-        if( pointlist.at(i).second < minY){
-            minY = pointlist.at(i).second ;
-            min = i;
-        }
-    }
-    
-    //swap minY coordinate with front of array
-    if(min != 0){
-        pair<double,double> temp = pointlist.at(min);
-        pointlist.at(min) = pointlist.at(0);
-        pointlist.at(0) = temp;
-    }
-    
-    // sort based on angle
-    //qsort(&pointlist.at(1), numpoints-1,  sizeof(pointlist.at(0)), cmp);
-    sort(&pointlist[1], &pointlist[numpoints], cmp);
     for(int i = 0; i < numpoints; i++){
         if(pointlist.at(i) != save.at(i)){
             cout << "test failed. output wrong: (";

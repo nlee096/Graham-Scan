@@ -13,6 +13,7 @@ using namespace std;
 vector< pair<double, double> > pointlist;
 vector< pair<double, double> > save;
 
+/*
 double getAngle(double x, double y){
     if(x == 0 && y == 0){
         return 0;
@@ -28,13 +29,16 @@ double getAngle(double x, double y){
     }
     return -1;
 }
+*/
 int cmp(const void * p1, const void * p2){
     pair<double, double> * pt1 = (pair<double, double>*)p1;
     pair<double, double> * pt2 = (pair<double, double>*)p2;
 
-    double alpha = getAngle(pt1->first - pointlist.at(0).first, pt1->second - pointlist.at(0).second );
-    double beta = getAngle(pt2->first - pointlist.at(0).first, pt2->second - pointlist.at(0).second );
-
+    //double alpha = getAngle(pt1->first - pointlist.at(0).first, pt1->second - pointlist.at(0).second );
+    //double beta = getAngle(pt2->first - pointlist.at(0).first, pt2->second - pointlist.at(0).second );
+    double alpha = atan2(pt1->second - pointlist.at(0).second, pt1->first - pointlist.at(0).first);
+    double beta = atan2(pt2->second - pointlist.at(0).second, pt2->first - pointlist.at(0).first);
+    
     if(alpha == beta){ // colinear
         double dist1 = sqrt((double)(pow(pointlist.at(0).first - pt1->first, 2) + pow(pointlist.at(0).second - pt1->second, 2)));
         double dist2 = sqrt((double)(pow(pointlist.at(0).first - pt2->first, 2) + pow(pointlist.at(0).second - pt2->second, 2)));
@@ -175,26 +179,6 @@ void circleTest1(int &numpoints){
     convex(numpoints);
     t.stop();
     double tm = t.get_total();
-
-    double minY = pointlist.at(0).second;
-    int min = 0;
-    for(int i = 1 ; i < numpoints; i++){
-        if( pointlist.at(i).second < minY){
-            minY = pointlist.at(i).second ;
-            min = i;
-        }
-    }
-
-    //swap minY coordinate with front of array
-    if(min != 0){
-        pair<double,double> temp = pointlist.at(min);
-        pointlist.at(min) = pointlist.at(0);
-        pointlist.at(0) = temp;
-    }
-
-    // sort based on angle
-    qsort(&pointlist.at(1), numpoints-1,  sizeof(pointlist.at(0)), cmp);
-
     for(int i = 0; i < numpoints; i++){
         if(pointlist.at(i) != save.at(i)){
             cout << "test failed. output wrong: (";
@@ -305,6 +289,6 @@ int main(){
     int numpoints;
     circleTest1(numpoints);
     circleTest2(numpoints);
-    randPtTest(numpoints);
+    //randPtTest(numpoints);
     return 0;
 }
