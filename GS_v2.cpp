@@ -15,8 +15,6 @@ vector< pair<double, double> > pointlist;
 vector< pair<double, double> > save;
 
 bool cmp(const pair<double, double> & pt1, const pair<double, double> & pt2){
-    //pair<double, double> * pt1 = (pair<double, double>*)p1;
-    //pair<double, double> * pt2 = (pair<double, double>*)p2;
     const pair<double, double>& pt0 =  pointlist[0];
     
     double y = pt1.second - pt0.second;
@@ -80,25 +78,24 @@ int convex(int numpoints)
     }
     
     // sort based on angle
-    //timer t; t.start();
     sort(&pointlist[1], &pointlist[numpoints], cmp);
-    //t.stop();
-    //double tm = t.get_total();
-    //cout << "sorting took " <<  tm << endl; 
+    
     save.push_back(pointlist[0]);
     save.push_back(pointlist[1]);
     
+    int prev;
     double val;
     for (int i = 2; i < numpoints; i++){
-        val = (save.back().second - save.at(save.size()-2).second) * (pointlist.at(i).first - save.back().first) - 
-            (save.back().first - save.at(save.size()-2).first) * (pointlist.at(i).second - save.back().second);
+	prev = save.size()-2;
+        val = (save.back().second - save[prev].second) * (pointlist[i].first - save.back().first) - 
+            (save.back().first - save[prev].first) * (pointlist[i].second - save.back().second);
         
         if(val > 0){
             for(int j = save.size()-1; j >= 0; j--){
                 save.pop_back();
-                
-                val = (save.back().second - save.at(save.size()-2).second) * (pointlist.at(i).first - save.back().first) - 
-                    (save.back().first - save.at(save.size()-2).first) * (pointlist.at(i).second - save.back().second);
+                prev = save.size()-2;
+                val = (save.back().second - save[prev].second) * (pointlist[i].first - save.back().first) - 
+                    (save.back().first - save[prev].first) * (pointlist[i].second - save.back().second);
                 if(val <= 0){
                     break;
                 }

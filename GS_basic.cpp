@@ -13,29 +13,10 @@ using namespace std;
 vector< pair<double, double> > pointlist;
 vector< pair<double, double> > save;
 
-/*
-double getAngle(double x, double y){
-    if(x == 0 && y == 0){
-        return 0;
-    }
-    else if(x > 0){
-        return atan2(y, x);
-    }
-    else if(x < 0 && y >= 0){
-        return (atan2(y, x) + 3.14);
-    }
-    else if(x < 0 && y < 0){
-        return (atan2(y, x) - 3.14);
-    }
-    return -1;
-}
-*/
 int cmp(const void * p1, const void * p2){
     pair<double, double> * pt1 = (pair<double, double>*)p1;
     pair<double, double> * pt2 = (pair<double, double>*)p2;
 
-    //double alpha = getAngle(pt1->first - pointlist.at(0).first, pt1->second - pointlist.at(0).second );
-    //double beta = getAngle(pt2->first - pointlist.at(0).first, pt2->second - pointlist.at(0).second );
     double alpha = atan2(pt1->second - pointlist.at(0).second, pt1->first - pointlist.at(0).first);
     double beta = atan2(pt2->second - pointlist.at(0).second, pt2->first - pointlist.at(0).first);
     
@@ -289,6 +270,6 @@ int main(){
     int numpoints;
     circleTest1(numpoints);
     circleTest2(numpoints);
-    //randPtTest(numpoints);
+    randPtTest(numpoints);
     return 0;
 }
