@@ -143,13 +143,14 @@ void circleTest1(int &numpoints){
     pointlist.clear();
     save.clear();
     numpoints = 1000000;
-    double step = 6/(double)numpoints;
+    double step = 6.0/(double)(numpoints/2);
     double x;
     double y;
-    for(int i = 0; i < numpoints; i++){
+    for(int i = 0; i < numpoints/2; i++){
         x = -3.0 + (step * (double)i);
         y = sqrt(9.0 - (double)pow(x, 2));
         pointlist.push_back(make_pair(x,y));
+	pointlist.push_back(make_pair(x,-y));
     }
     
     srand (time(NULL));
